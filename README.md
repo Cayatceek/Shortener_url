@@ -65,7 +65,7 @@ Shortener_url/
 
 1. **Navigate to Project Directory**:
    ```powershell
-   cd C:\Users\user\Desktop\test_tesk\Shortener_url
+   cd Shortener_url
    ```
 
 2. **Build and Run with Docker Compose**:
