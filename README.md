@@ -174,7 +174,3 @@ Returns an HTML page with API documentation.
   - SQLite for persistent storage.
   - Docker for containerization.
   - Tailwind CSS for styling the `/docs` page.
-- **Improvements**:
-  - Add uniqueness checks for `short_id` in `app/services.py`.
-  - Implement rate limiting or authentication.
-  - Extend documentation with Swagger UI (FastAPI's built-in `/docs`).
