@@ -2,6 +2,12 @@
 
 A simple URL shortening service built with **FastAPI** and **SQLite**, containerized using **Docker**. The API allows users to shorten URLs, redirect to original URLs via short IDs, and access API documentation through an HTML page.
 
+## Tech Stack
+  - FastAPI for the API framework.
+  - SQLite for persistent storage.
+  - Docker for containerization.
+  - Tailwind CSS for styling the `/docs` page.
+  - 
 ## Features
 - **Shorten URLs**: Create a short URL from a long one using `POST /`.
 - **Redirect**: Redirect to the original URL using `GET /{short_id}`.
@@ -167,10 +173,3 @@ Returns an HTML page with API documentation.
     docker ps
     wsl --list --all
     ```
-
-## Development Notes
-- **Tech Stack**:
-  - FastAPI for the API framework.
-  - SQLite for persistent storage.
-  - Docker for containerization.
-  - Tailwind CSS for styling the `/docs` page.
