@@ -12,9 +12,7 @@ A simple URL shortening service built with **FastAPI** and **SQLite**, container
 - **Shorten URLs**: Create a short URL from a long one using `POST /`.
 - **Redirect**: Redirect to the original URL using `GET /{short_id}`.
 - **API Documentation**: View HTML-based API documentation at `GET /docs`.
-- **Asynchronous**: Built with async/await for high performance.
 - **Containerized**: Runs in Docker for easy deployment.
-- **Tested**: Includes automated tests using `pytest`.
 
 ## Prerequisites
 - **Docker Desktop**: Installed and running on your system.
