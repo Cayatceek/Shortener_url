@@ -56,9 +56,6 @@ Shortener_url/
 │   ├── schemas.py      # Pydantic models for request/response
 │   ├── models.py       # Data models for URLs
 │   └── .env            # Environment variables (APP_PORT=8080)
-├── tests/
-│   ├── __init__.py
-│   └── test_url.py     # Automated tests for API endpoints
 ├── Dockerfile          # Docker image configuration
 ├── docker-compose.yml  # Docker Compose configuration
 ├── requirements.txt    # Python dependencies
