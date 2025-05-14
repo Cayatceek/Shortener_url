@@ -7,7 +7,7 @@ A simple URL shortening service built with **FastAPI** and **SQLite**, container
   - SQLite for persistent storage.
   - Docker for containerization.
   - Tailwind CSS for styling the `/docs` page.
-  - 
+
 ## Features
 - **Shorten URLs**: Create a short URL from a long one using `POST /`.
 - **Redirect**: Redirect to the original URL using `GET /{short_id}`.
