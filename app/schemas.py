@@ -1,17 +1,17 @@
-from pydantic import BaseModel
+from pydantic import BaseModel, HttpUrl, field_validator
+from typing import Optional
 
 class URLCreate(BaseModel):
-    """Схема для создания нового URL.
+    """Схема для создания сокращённого URL."""
+    url: HttpUrl
 
-    Attributes:
-        url (str): Оригинальный URL для сокращения.
-    """
-    url: str
+    @field_validator("url")
+    def validate_url(cls, v):
+        """Проверяет, что URL является строкой и валидным HTTP/HTTPS адресом."""
+        if not isinstance(v, str):
+            raise ValueError("URL must be a string")
+        return v
 
 class URLResponse(BaseModel):
-    """Схема для ответа с сокращённым URL.
-
-    Attributes:
-        short_url (str): Сокращённый URL.
-    """
+    """Схема для ответа с сокращённым URL."""
     short_url: str

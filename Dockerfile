@@ -1,9 +1,11 @@
-FROM python:3.9
+FROM python:3.9-alpine
 
 WORKDIR /app
 
 COPY requirements.txt .
-RUN pip install -r requirements.txt
+RUN apk add --no-cache gcc musl-dev linux-headers \
+    && pip install --no-cache-dir -r requirements.txt \
+    && apk del gcc musl-dev linux-headers
 
 COPY . .
 
