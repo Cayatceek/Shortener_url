@@ -23,7 +23,7 @@ Welcome to the **URL Shortener API**! 🎉 A simple, lightning-fast service buil
 ## Quick Start ⚡
 1. **Clone the Repository** (if you have it):
    ```bash
-   git clone <repository-url>
+   git clone https://github.com/Cayatceek/Shortener_url.git
    cd Shortener_url
    ```
 
@@ -45,7 +45,7 @@ Welcome to the **URL Shortener API**! 🎉 A simple, lightning-fast service buil
 
 4. **Run the App**:
    ```powershell
-   cd C:\Users\user\Desktop\test_tesk\Shortener_url
+   cd <path to /Shortener_url>
    docker-compose up --build
    ```
    - Boom! API is live at `http://127.0.0.1:8080`. 🌍
