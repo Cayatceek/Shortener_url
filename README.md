@@ -1,3 +1,4 @@
+
 # URL Shortener API 🌟
 
 Welcome to the **URL Shortener API**! 🎉 A simple, lightning-fast service built with **FastAPI** and **SQLite**, wrapped in a **Docker** container. Shrink those long URLs, redirect like a pro, and fetch data from external APIs asynchronously. 
@@ -176,3 +177,10 @@ Test the API with PowerShell commands:
     ```powershell
     wsl --update
     ```
+
+## Environment Variables 🔐
+The `.env` file is located inside the `app/` folder and contains configuration values like:
+
+```
+APP_PORT=8080
+```

@@ -1,34 +1,26 @@
 import secrets
-from .database import get_db
+from .curd import save_url, get_url_by_short_id
 from .models import URL
+from pydantic import HttpUrl
+from typing import Optional
 
-async def create_short_url(original_url: str) -> str:
-    """Создаёт запись с сокращённым URL в базе данных.
+class URLService:
+    """Сервис для операций с сокращением URL."""
 
-    Args:
-        original_url (str): Оригинальный URL для сокращения.
+    @staticmethod
+    def generate_short_id() -> str:
+        """Генерирует короткий идентификатор для URL с использованием secrets."""
+        return secrets.token_urlsafe(6)
 
-    Returns:
-        str: Уникальный идентификатор сокращённого URL.
-    """
-    short_id = secrets.token_urlsafe(6)
-    async with get_db() as db:
-        await db.execute("CREATE TABLE IF NOT EXISTS urls (short_id TEXT PRIMARY KEY, original_url TEXT)")
-        await db.execute("INSERT INTO urls (short_id, original_url) VALUES (?, ?)", (short_id, original_url))
-        await db.commit()
-    return short_id
+    async def create_short_url(self, original_url: HttpUrl) -> str:
+        """Создаёт сокращённый URL."""
+        url_str = str(original_url)
+        if not url_str.startswith(('http://', 'https://')):
+            raise ValueError("Invalid URL: must start with http:// or https://")
+        short_id = self.generate_short_id()
+        await save_url(short_id, url_str)
+        return short_id
 
-async def get_original_url(short_id: str) -> URL:
-    """Получает URL по его сокращённому идентификатору.
-
-    Args:
-        short_id (str): Уникальный идентификатор сокращённого URL.
-
-    Returns:
-        URL: Объект модели URL с данными о сокращённом и оригинальном URL,
-             или None, если URL не найден.
-    """
-    async with get_db() as db:
-        result = await db.execute("SELECT short_id, original_url FROM urls WHERE short_id = ?", (short_id,))
-        row = await result.fetchone()
-        return URL(short_id=row[0], original_url=row[1]) if row else None
+    async def get_original_url(self, short_id: str) -> Optional[URL]:
+        """Получает оригинальный URL по короткому идентификатору."""
+        return await get_url_by_short_id(short_id)
