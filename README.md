@@ -28,15 +28,15 @@ Welcome to the **URL Shortener API**! 🎉 A simple, lightning-fast service buil
    cd Shortener_url
    ```
 2. **Create .env File**:
-   - After cloning, create a .env file inside the app/ folder with the following content:
+    After cloning, create a .env file inside the app/ folder with the following content:
    ```ini
    APP_PORT=8080
    DB_PATH=/app/db/urls.db
    ```
 
 3. **Check Docker Desktop**:
-   - Make sure it's running (look for the whale in the system tray! 🐳).
-   - Verify version:
+   Make sure it's running (look for the whale in the system tray! 🐳).
+   Verify version:
      ```powershell
      docker --version
      ```
