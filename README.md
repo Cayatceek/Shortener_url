@@ -27,15 +27,21 @@ Welcome to the **URL Shortener API**! 🎉 A simple, lightning-fast service buil
    git clone https://github.com/Cayatceek/Shortener_url.git
    cd Shortener_url
    ```
+2. **Create .env File**:
+   - After cloning, create a .env file inside the app/ folder with the following content:
+   ```ini
+   APP_PORT=8080
+   DB_PATH=/app/db/urls.db
+   ```
 
-2. **Check Docker Desktop**:
+3. **Check Docker Desktop**:
    - Make sure it's running (look for the whale in the system tray! 🐳).
    - Verify version:
      ```powershell
      docker --version
      ```
 
-3. **Confirm WSL 2**:
+4. **Confirm WSL 2**:
    ```powershell
    wsl --list --all
    ```
@@ -44,14 +50,14 @@ Welcome to the **URL Shortener API**! 🎉 A simple, lightning-fast service buil
    wsl --install
    ```
 
-4. **Run the App**:
+5. **Run the App**:
    ```powershell
    cd <path to /Shortener_url>
    docker-compose up --build
    ```
    - Boom! API is live at `http://127.0.0.1:8080`. 🌍
 
-5. **Stop the App**:
+6. **Stop the App**:
    Hit `Ctrl+C` in PowerShell, then:
    ```powershell
    docker-compose down
@@ -62,6 +68,7 @@ Welcome to the **URL Shortener API**! 🎉 A simple, lightning-fast service buil
 Shortener_url/
 ├── app/
 │   ├── __init__.py
+│   ├── curd.py         # Functions to manage db
 │   ├── main.py         # FastAPI app setup 🎮
 │   ├── router.py       # API routes (POST /, GET /{short_id}, GET /async-data) 🚦
 │   ├── services.py     # URL shortening logic 🛠️
