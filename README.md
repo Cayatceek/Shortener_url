@@ -1,149 +1,71 @@
+# URL Shortener
 
-# URL Shortener API 🌟
+Небольшой REST API для сокращения ссылок на FastAPI и SQLite. Создаёт короткие идентификаторы, сохраняет исходные адреса и перенаправляет пользователей.
 
-Welcome to the **URL Shortener API**! 🎉 A simple, lightning-fast service built with **FastAPI** and **SQLite**, wrapped in a **Docker** container. Shrink those long URLs, redirect like a pro, and fetch data from external APIs asynchronously. 
+## API
 
-## Tech Stack 🛠️
-- **FastAPI**: Blazing-fast API framework with async magic. ⚡
-- **SQLite**: Lightweight, reliable database for storing URLs. 💾
-- **Docker**: Containerized for easy setup and deployment. 🐳
-- **httpx**: Async HTTP client for fetching external data. 🌐
+| Метод | Путь | Назначение |
+| --- | --- | --- |
+| POST | `/` | Создать короткую ссылку |
+| GET | `/{short_id}` | Перенаправить на исходный URL (307) |
+| GET | `/async-data` | Демонстрационный запрос к JSONPlaceholder |
+| GET | `/docs` | Swagger UI |
 
-## Features 🎯
-- **Shrink URLs**: Turn long links into short ones with `POST /`. 🔗
-- **Redirect**: Jump to the original URL using `GET /{short_id}`. 🏃‍♂️
-- **Async Data Fetch**: Grab data from an external API with `GET /async-data`. 📡
-- **Dockerized**: Deploy anywhere with a single command. 🐳
+Неизвестный идентификатор возвращает 404.
 
-## Prerequisites 📋
-- **Docker Desktop**: Get it running on your machine! 🖥️
-- **Windows Subsystem for Linux (WSL 2)**: Needed for Docker on Windows. 🐧
-- **PowerShell**: For running commands like a boss. 💪
-- **Python 3.9** (optional): Only if you want to tinker locally. 🐍
+## Запуск через Docker
 
-## Quick Start ⚡
-1. **Clone the Repository** (if you have it):
-   ```bash
-   git clone https://github.com/Cayatceek/Shortener_url.git
-   cd Shortener_url
-   ```
-2. **Create .env File**:
-    After cloning, create a .env file inside the app/ folder with the following content:
-   ```ini
-   APP_PORT=8080
-   DB_PATH=/app/db/urls.db
-   ```
+Создайте локальный файл `app/.env`:
 
-3. **Check Docker Desktop**:
-   Make sure it's running (look for the whale in the system tray! 🐳).
-   Verify version:
-     ```powershell
-     docker --version
-     ```
-
-4. **Confirm WSL 2**:
-   ```powershell
-   wsl --list --all
-   ```
-   Not installed? No sweat, run:
-   ```powershell
-   wsl --install
-   ```
-
-5. **Run the App**:
-   ```powershell
-   cd <path to /Shortener_url>
-   docker-compose up --build
-   ```
-   - Boom! API is live at `http://127.0.0.1:8080`. 🌍
-
-6. **Stop the App**:
-   Hit `Ctrl+C` in PowerShell, then:
-   ```powershell
-   docker-compose down
-   ```
-
-## Project Structure 📂
-```
-Shortener_url/
-├── app/
-│   ├── __init__.py
-│   ├── curd.py         # Functions to manage db
-│   ├── main.py         # FastAPI app setup 🎮
-│   ├── router.py       # API routes (POST /, GET /{short_id}, GET /async-data) 🚦
-│   ├── services.py     # URL shortening logic 🛠️
-│   ├── database.py     # SQLite connection 🔌
-│   ├── schemas.py      # Pydantic models for requests/responses 📋
-│   ├── models.py       # URL data models 📊
-│   └── .env            # Environment variables (APP_PORT=8080) 🔑
-├── tests/
-│   ├── __init__.py
-│   └── test_url.py     # Automated tests for endpoints 🧪
-├── Dockerfile          # Docker image config 🐳
-├── docker-compose.yml  # Docker Compose setup ⚙️
-├── requirements.txt    # Python dependencies 📦
-├── .gitignore          # Git ignore file 🙈
-├── LICENSE             # MIT License 📜
-└── README.md           # You're reading it! 😄
+```env
+DB_PATH=/app/db/urls.db
 ```
 
-## API Endpoints 🌐
+Затем:
 
-### POST / 🔗
-Creates a shiny new shortened URL.
+```bash
+docker compose up --build
+```
 
-- **Request**:
-  ```bash
-  curl -X POST "http://127.0.0.1:8080/" -H "Content-Type: application/json" -d '{"url": "http://example.com"}'
-  ```
-- **Response** (201 Created):
-  ```json
-  {
-    "short_url": "http://127.0.0.1:8080/<short_id>"
-  }
-  ```
+API: `http://127.0.0.1:8080`. SQLite хранится в именованном томе `url_data`.
 
-### GET /{short_id} 🏃‍♂️
-Redirects to the original URL.
+Остановка:
 
-- **Request**:
-  ```bash
-  curl -L "http://127.0.0.1:8080/<short_id>"
-  ```
-- **Response** (307 Temporary Redirect):
-  - Header: `Location: <original_url>`
+```bash
+docker compose down
+```
 
-### GET /async-data 📡
-Fetches data from an external API (JSONPlaceholder) asynchronously. Cool, right? 😎
+## Запуск без Docker
 
-- **Request**:
-  ```bash
-  curl "http://127.0.0.1:8080/async-data"
-  ```
-- **Response** (200 OK):
-  ```json
-  {
-    "userId": 1,
-    "id": 1,
-    "title": "delectus aut autem",
-    "completed": false
-  }
-  ```
+```bash
+python -m venv .venv
+# Активируйте .venv
+python -m pip install -r requirements.txt
+uvicorn app.main:app --host 127.0.0.1 --port 8080
+```
 
-## Try It Out! 🕹️
-Test the API with PowerShell commands:
+Dockerfile использует Python 3.12. При запуске без Docker файл `.env` автоматически не загружается: задайте `DB_PATH` в окружении или используйте путь по умолчанию `app/urls.db`.
 
-1. **POST /**:
-   ```powershell
-   Invoke-RestMethod -Uri "http://127.0.0.1:8080/" -Method Post -ContentType "application/json" -Body '{"url": "http://example.com"}'
-   ```
+## Пример
 
-2. **GET /<short_id>**:
-   ```powershell
-   Invoke-WebRequest -Uri "http://127.0.0.1:8080/<short_id>" -MaximumRedirection 0
-   ```
+```bash
+curl -X POST http://127.0.0.1:8080/ \
+  -H "Content-Type: application/json" \
+  -d '{"url":"https://example.com"}'
+```
 
-3. **GET /async-data**:
-   ```powershell
-   Invoke-RestMethod -Uri "http://127.0.0.1:8080/async-data"
-   ```
+Ответ содержит поле `short_url`. Откройте его, чтобы проверить перенаправление.
+
+## Устройство проекта
+
+- [app/router.py](app/router.py) — HTTP-маршруты.
+- [app/services.py](app/services.py) — сокращение ссылок.
+- [app/database.py](app/database.py) — SQLite и создание таблиц.
+- [app/schemas.py](app/schemas.py) — схемы запросов и ответов.
+- [docker-compose.yml](docker-compose.yml) — контейнер и постоянный том.
+
+## Ограничения
+
+Учебный сервис. Базовый адрес возвращаемых ссылок сейчас фиксирован как `http://127.0.0.1:8080`; перед размещением на домене его нужно сделать настраиваемым. В репозитории нет каталога автоматических тестов. Демонстрационный `/async-data` зависит от доступности внешнего API.
+
+Условия использования: [LICENSE](LICENSE).
